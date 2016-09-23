@@ -25,7 +25,7 @@ describe('thunk middleware', () => {
       it('must run the given action function with dispatch and getState', done => {
         const actionHandler = nextHandler();
 
-        actionHandler((dispatch, getState) => {
+        actionHandler(({ dispatch, getState }) => {
           chai.assert.strictEqual(dispatch, doDispatch);
           chai.assert.strictEqual(getState, doGetState);
           done();
@@ -85,10 +85,10 @@ describe('thunk middleware', () => {
       thunkMiddleware.withExtraArgument(extraArg)({
         dispatch: doDispatch,
         getState: doGetState,
-      })()((dispatch, getState, arg) => {
+      })()(({ dispatch, getState, extraArgument }) => {
         chai.assert.strictEqual(dispatch, doDispatch);
         chai.assert.strictEqual(getState, doGetState);
-        chai.assert.strictEqual(arg, extraArg);
+        chai.assert.strictEqual(extraArgument, extraArg);
         done();
       });
     });
